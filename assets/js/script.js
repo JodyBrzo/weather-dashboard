@@ -25,7 +25,7 @@ function getWeatherData(lat, lon, city) {
 
 
  //call the weather API based on ZipCode and call the fucntion showWeatherData to load the values
-function loadWeatherZip(zipCpde) {
+function loadWeatherZip(zipCpde, isClicked) {
 
     var queryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zipCpde + ",us&appid=" + APIKey;
     var weatherContainer = $("#weatherContainer");
@@ -40,7 +40,12 @@ function loadWeatherZip(zipCpde) {
 
             console.log(response);
 
-            saveLocations(response);  //save the city and zip to local storage
+            if (!isClicked)
+            {
+                saveLocations(response);  //save the city and zip to local storage
+            }
+
+            renderLocations();
 
             //load weather
             getWeatherData(response.city.coord.lat, response.city.coord.lon, response.city.name);
@@ -50,7 +55,7 @@ function loadWeatherZip(zipCpde) {
         });
 }
 
-function loadWeatherCity(city) {
+function loadWeatherCity(city, isClicked) {
     
     var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + ",us&appid=" + APIKey;
     var weatherContainer = $("#weatherContainer");
@@ -65,7 +70,12 @@ function loadWeatherCity(city) {
 
             console.log(response);
 
-            saveLocations(response);  //save the city and zip to local storage
+            if (!isClicked)
+            {
+                saveLocations(response);  //save the city and zip to local storage
+            }
+
+            renderLocations();
             //load weather
             getWeatherData(response.city.coord.lat, response.city.coord.lon, response.city.name);
 
@@ -149,41 +159,40 @@ function loadLocations()
     if (locationsArray) //if not undefined
     {
       locations = JSON.parse(locationsArray);  //make sure there is a locations object in local storage
+      renderLocations();
     }
     else {
       localStorage.setItem("locations", JSON.stringify(locations));  //if not make one and store it to local storage
     }
 }
 
+function renderLocations()
+{
+    var divLocations = $("#locationHistory");
+
+    $.each(locations, function(index, item){
+        var a = $("<a>").addClass("list-group-item list-group-item-action city").attr("data-city", locations[index]).text(locations[index]);
+        divLocations.append(a);
+    });
+
+    $("#locationHistory > a").click(function (event)
+    {   
+        var element = event.target;
+        var city = $(element).attr("data-city");
+
+        loadWeatherCity(city, true);
+    });
+
+}
+
 //save locations to the locations array and local storage
 function saveLocations(data)
 {
 
-    var city = data.city.name;
+    var city = data.city.name; //get the city came
 
     locations.unshift(city);
     localStorage.setItem("locations", JSON.stringify(locations));  //convert to a string and sent to local storage
-
-
-
-    //   if (playerInitials.val() !== "") { //make sure user entered something 
-    //   var score =
-    //   {
-    //     initials: playerInitials.val(),  //set the values to the score object
-    //     score: secondsLeft
-    //   }
-  
-    //   highScores.push(score);  //append to the end of the score object
-    //   localStorage.setItem("highScores", JSON.stringify(highScores));  //convert to a string and sent to local storage
-  
-    //   playerInitials.val("");  //clear the text box
-    //       showHighScores();  //go get the scores and show them
-    // }
-    // else 
-    // {
-    //   alert("You must enter your initials to record a score.");  //alert the user initials can not be blank to record a score
-    // }
-
 
 }
 
@@ -203,11 +212,11 @@ $(document).ready(function () {
 
             if (!isNaN(zip)) //yes it is a zip code
             {
-                loadWeatherZip(zip);
+                loadWeatherZip(zip, false);
             }
             else
             {
-                loadWeatherCity(searchCriteria);  //no, it is a city name
+                loadWeatherCity(searchCriteria, false);  //no, it is a city name
             }
         }
     });
