@@ -11,3 +11,11 @@
     background-color:rgb(250, 246, 246);
     font-size: 18px;
   }
+
+  div#fiveDay div
+  {
+    width: 125px;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+  }

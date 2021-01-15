@@ -25,7 +25,7 @@
 </head>
 
 <body>
-  <div id="weatherContainer" class="container">
+  <div id="weatherContainer" class="container mb-3 mt-3">
     <div id="weather" class="row">
       <div id="title" class="col-12 title text-center font-weight-bold">
         <h1>Weather Dashboard</h1>
@@ -43,7 +43,7 @@
       </div>
 
         <div class="col-8 h-50 pr-0 pt-3">
-          <div id="weatherData"></div>
+          <div id="weatherData">
             <div id="currentWeather" class="border-light">
               <div class="card">
                 <div class="card-body">
@@ -56,8 +56,13 @@
               </div>
             </div>
             <div id="5DayWeather">
-
+              <h3>5-Day Forecast:</h3>
+              <div>
+                <div id="fiveDay" class="d-flex justify-content-between ">
+                </div>
+              </div>
             </div>
+          </div>
         </div>
       
     </div>
