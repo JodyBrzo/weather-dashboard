@@ -16,7 +16,7 @@ function getWeatherData(lat, lon, city) {
         // We store all of the retrieved data inside of an object called "response"
         .then(function (response) {
 
-            console.log(response);
+            // console.log(response);
 
             showWeatherData(response, city);
 
@@ -36,11 +36,14 @@ function loadWeatherZip(zipCpde) {
         method: "GET"
     })
         // We store all of the retrieved data inside of an object called "response"
-        .then(function (response) {
+        .then(function (response) { 
+
+            console.log(response);
+
+            saveLocations(response);  //save the city and zip to local storage
 
             //load weather
             getWeatherData(response.city.coord.lat, response.city.coord.lon, response.city.name);
-        //---------------save to local storage here
 
         }).catch(function (response){
             alert("Not a vaild Zip Code")
@@ -59,9 +62,12 @@ function loadWeatherCity(city) {
     })
         // We store all of the retrieved data inside of an object called "response"
         .then(function (response) {
+
+            console.log(response);
+
+            saveLocations(response);  //save the city and zip to local storage
             //load weather
             getWeatherData(response.city.coord.lat, response.city.coord.lon, response.city.name);
-            //---------------save to local storage here
 
         }).catch(function(response){
             alert("Not a valid City");
@@ -109,17 +115,18 @@ function showWeatherData(weatherData, city)
     var ul5 = $("#fiveDay");
     ul5.empty();
 
-    for (i=1; i < 6; i++)
+    for (i=1; i < 6; i++)  //we want the days 1-5
     {
+        //make the elements to display the 5 day forecast and append to the parent div
         var div = $("<div>").addClass("bg-primary");
 
-        var dateTime = parseInt(weatherData.daily[i].dt);
-        var dateHeading = $("<h6>").text(new Date(dateTime * 1000).toLocaleDateString());
+        var dateTime = parseInt(weatherData.daily[i].dt); 
+        var dateHeading = $("<h6>").text(new Date(dateTime * 1000).toLocaleDateString());  //convert unix time to javascript date
         var iconDayURL = "http://openweathermap.org/img/w/" + weatherData.daily[i].weather[0].icon + ".png";  //get weather icon
         var icon = $("<img>").attr("src", iconDayURL);
 
-        temp = parseInt(weatherData.daily[i].temp.day);
-        temp = Math.round(((temp-273.15)*1.8) + 32);
+        temp = parseInt(weatherData.daily[i].temp.day);  //convert kelvin to Fahrenheit
+        temp = Math.round(((temp-273.15)*1.8) + 32);  //convert kelvin to Fahrenheit
         var temp5 = $("<p>").html("Temp: " + temp +  "  &degF");
 
         var humidity5 = $("<p>").html("Humidity: " + weatherData.daily[i].humidity + "%");
@@ -135,6 +142,7 @@ function showWeatherData(weatherData, city)
     $("#weatherData").show();
 }
 
+//load locations from local storage to the locations array
 function loadLocations()
 {
     var locationsArray = localStorage.getItem("locations");
@@ -147,27 +155,59 @@ function loadLocations()
     }
 }
 
+//save locations to the locations array and local storage
+function saveLocations(data)
+{
+
+    var city = data.city.name;
+
+    locations.unshift(city);
+    localStorage.setItem("locations", JSON.stringify(locations));  //convert to a string and sent to local storage
+
+
+
+    //   if (playerInitials.val() !== "") { //make sure user entered something 
+    //   var score =
+    //   {
+    //     initials: playerInitials.val(),  //set the values to the score object
+    //     score: secondsLeft
+    //   }
+  
+    //   highScores.push(score);  //append to the end of the score object
+    //   localStorage.setItem("highScores", JSON.stringify(highScores));  //convert to a string and sent to local storage
+  
+    //   playerInitials.val("");  //clear the text box
+    //       showHighScores();  //go get the scores and show them
+    // }
+    // else 
+    // {
+    //   alert("You must enter your initials to record a score.");  //alert the user initials can not be blank to record a score
+    // }
+
+
+}
+
 $(document).ready(function () {
 
     $("#weatherData").hide();  //Hide the div that will show all the weather data and we will show it once it is populated
 
-    loadLocations();
+    loadLocations();  //get the locations from local storage and load them to the locations array
 
     $("#searchBtn").click(function (event) {  //event handler for the city search input
         var element = event.target; //set element to the div that was clicked
-        var searchCriteria = $("#zipCode").val();
+        var searchCriteria = $("#zipCode").val();  //get the user input
         
-        if (searchCriteria !== "")
+        if (searchCriteria !== "")  //make sure it is not empty
         {
-            var zip = parseInt(searchCriteria);
+            var zip = parseInt(searchCriteria); //is it a zip code or city name
 
-            if (!isNaN(zip))
+            if (!isNaN(zip)) //yes it is a zip code
             {
                 loadWeatherZip(zip);
             }
             else
             {
-                loadWeatherCity(searchCriteria);
+                loadWeatherCity(searchCriteria);  //no, it is a city name
             }
         }
     });

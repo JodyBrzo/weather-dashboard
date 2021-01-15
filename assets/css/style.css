@@ -1,5 +1,5 @@
 
-
+/* style for the black "weather dashboard" heading */
 .title {
     height: 80px;
     background-color: black;
@@ -8,11 +8,13 @@
     
   }
 
+  /* style for the zip code div that holds the input search box */
   .zipCode{
     background-color:rgb(250, 246, 246);
     font-size: 18px;
   }
 
+  /* style for the 5 Day div's */
   div#fiveDay div
   {
     width: 125px;
