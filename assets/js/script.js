@@ -1,4 +1,5 @@
 let APIKey = "166a433c57516f51dfab1f7edaed8413";
+let locations = [];
 
 // Here we are building the URL we need to query the One call weather API to retrieve the UV Index.  
 //This API requires Geographical coordinates that we get from the 5 day API so we can retirive the 
@@ -39,12 +40,14 @@ function loadWeatherZip(zipCpde) {
 
             //load weather
             getWeatherData(response.city.coord.lat, response.city.coord.lon, response.city.name);
+        //---------------save to local storage here
 
+        }).catch(function (response){
+            alert("Not a vaild Zip Code")
         });
 }
 
 function loadWeatherCity(city) {
-
     
     var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + ",us&appid=" + APIKey;
     var weatherContainer = $("#weatherContainer");
@@ -58,6 +61,10 @@ function loadWeatherCity(city) {
         .then(function (response) {
             //load weather
             getWeatherData(response.city.coord.lat, response.city.coord.lon, response.city.name);
+            //---------------save to local storage here
+
+        }).catch(function(response){
+            alert("Not a valid City");
         });
 }
 
@@ -128,11 +135,25 @@ function showWeatherData(weatherData, city)
     $("#weatherData").show();
 }
 
+function loadLocations()
+{
+    var locationsArray = localStorage.getItem("locations");
+    if (locationsArray) //if not undefined
+    {
+      locations = JSON.parse(locationsArray);  //make sure there is a locations object in local storage
+    }
+    else {
+      localStorage.setItem("locations", JSON.stringify(locations));  //if not make one and store it to local storage
+    }
+}
+
 $(document).ready(function () {
 
-    $("#weatherData").hide();
+    $("#weatherData").hide();  //Hide the div that will show all the weather data and we will show it once it is populated
 
-    $("#searchBtn").click(function (event) {
+    loadLocations();
+
+    $("#searchBtn").click(function (event) {  //event handler for the city search input
         var element = event.target; //set element to the div that was clicked
         var searchCriteria = $("#zipCode").val();
         
