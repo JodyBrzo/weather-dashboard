@@ -1,38 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <!-- bootstrap -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"  
-    />
-    <!-- font awesome -->
-    <!-- <link
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <!-- font awesome -->
+  <!-- <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
       integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
       crossorigin="anonymous"
     /> -->
-    <!-- google font -->
-    <!-- <link
+  <!-- google font -->
+  <!-- <link
       href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
       rel="stylesheet"
     /> -->
-    <!-- local css -->
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <title>Weather Dashboard</title>
-  </head>
+  <!-- local css -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <title>Weather Dashboard</title>
+</head>
 
-  <body>
-    <div id="weatherContainer" class="container">
-      <!-- Timeblocks go here -->
+<body>
+  <div id="weatherContainer" class="container">
+    <div id="weather" class="row">
+      <div id="title" class="col-12 title text-center font-weight-bold">
+        <h1>Weather Dashboard</h1>
+      </div>
     </div>
+    <div class="row">
+      <div id="zipCodeContainer" class="col-4 zipCode text-left font-weight-bold">
+        <p>Search for a City:</p>
 
+        <div class="input-group">
+          <input id="zipCode" type="search" class="form-control rounded " placeholder="Search" aria-label="Search"
+            aria-describedby="search-addon" />
+          <button id="searchBtn" type="button" class="SearchBtn btn-outline-primary">search</button>
+        </div>
+      </div>
+
+        <div class="col-8 h-50 pr-0 pt-3">
+          <div id="weatherData"></div>
+            <div id="currentWeather" class="border-light">
+              <div class="card">
+                <div class="card-body">
+                  <h5 id="cityDate" class="card-title"></h5>
+                  <p class="card-text"><span>Temperature: </span><span id="currentTemp"></span></p>
+                  <p class="card-text"><span>Humidity: </span><span id="currentHumidity"></span></p>
+                  <p class="card-text"><span>Wind Speed: </span><span id="currentWindSpeed"></span></p>
+                  <p class="card-text"><span>UV Index: </span><span id="currentUVIndex" class="d-inline-block"></span></p>
+                </div>
+              </div>
+            </div>
+            <div id="5DayWeather">
+
+            </div>
+        </div>
+      
+    </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
-  </body>
+</body>
+
 </html>
