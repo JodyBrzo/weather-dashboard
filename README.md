@@ -7,7 +7,7 @@ Using OpenWeather API to display the forecast for the cities you search for
 
 
 # Mock-up
-![Weather Dashboard](assets/images/code-quiz.gif)
+![Weather Dashboard](assets/images/weather-dashboard.gif)
 
 
 ## Why I made this project
