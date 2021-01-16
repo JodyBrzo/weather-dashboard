@@ -43,9 +43,9 @@ function loadWeatherZip(zipCpde, isClicked) {
             if (!isClicked)
             {
                 saveLocations(response);  //save the city and zip to local storage
+                renderLocations();
             }
 
-            renderLocations();
 
             //load weather
             getWeatherData(response.city.coord.lat, response.city.coord.lon, response.city.name);
@@ -73,9 +73,9 @@ function loadWeatherCity(city, isClicked) {
             if (!isClicked)
             {
                 saveLocations(response);  //save the city and zip to local storage
+                renderLocations();
             }
 
-            renderLocations();
             //load weather
             getWeatherData(response.city.coord.lat, response.city.coord.lon, response.city.name);
 
@@ -169,11 +169,14 @@ function loadLocations()
 function renderLocations()
 {
     var divLocations = $("#locationHistory");
+    divLocations.empty();  //clear the cities list before rendering it from the local storage object
 
     $.each(locations, function(index, item){
         var a = $("<a>").addClass("list-group-item list-group-item-action city").attr("data-city", locations[index]).text(locations[index]);
         divLocations.append(a);
     });
+
+    $("#locationHistory > a").off();
 
     $("#locationHistory > a").click(function (event)
     {   
