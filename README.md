@@ -5,6 +5,8 @@ Using OpenWeather API to display the forecast for the cities you search for
 # Link to live site
 [Weather Dashboard](https://jodybrzo.github.io/weather-dashboard/index.html)
 
+# Technologies Used
+JavaScript 71.8%   HTML 23.7%   CSS 4.5%
 
 # Mock-up
 ![Weather Dashboard](assets/images/weather-dashboard.gif)
